@@ -1,32 +1,6 @@
-const rooms = [
-  {
-    id: 1,
-    roomNumber: "101",
-    roomType: "Ocean Deluxe",
-    capacity: 2,
-    price: 250000,
-    status: "AVAILABLE",
-    description: "오션뷰와 프라이빗 라운지를 갖춘 대표 객실입니다.",
-  },
-  {
-    id: 2,
-    roomNumber: "201",
-    roomType: "Garden Suite",
-    capacity: 3,
-    price: 320000,
-    status: "AVAILABLE",
-    description: "넓은 거실과 정원 전망을 제공하는 스위트 객실입니다.",
-  },
-  {
-    id: 3,
-    roomNumber: "301",
-    roomType: "Premier Family",
-    capacity: 4,
-    price: 410000,
-    status: "OCCUPIED",
-    description: "가족 단위 고객에게 적합한 넓은 객실입니다.",
-  },
-];
+import { useEffect, useState } from "react";
+import { getRooms } from "../../api/roomApi";
+import { Link } from "react-router-dom";
 
 function formatPrice(price) {
   return new Intl.NumberFormat("ko-KR").format(price);
@@ -51,6 +25,22 @@ function getStatusClass(status) {
 }
 
 function RoomsPage() {
+  const [rooms, setRooms] = useState([]);
+
+  useEffect(() => {
+    async function fetchRooms() {
+      try {
+        const data = await getRooms();
+
+        setRooms(data);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+
+    fetchRooms();
+  }, []);
+
   return (
     <section className="min-h-screen bg-[#F5F3EE] px-6 py-10 text-[#111111] md:px-10">
       <div className="mx-auto max-w-7xl">
@@ -114,12 +104,16 @@ function RoomsPage() {
                     </p>
                   </div>
 
-                  <button
-                    disabled={room.status !== "AVAILABLE"}
-                    className="rounded-2xl bg-[#111111] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#C8A97E] hover:text-black disabled:cursor-not-allowed disabled:bg-gray-200 disabled:text-gray-500"
+                  <Link
+                    to={`/reservation/new?roomId=${room.id}`}
+                    className={`rounded-2xl px-5 py-3 text-sm font-bold transition ${
+                      room.status === "AVAILABLE"
+                        ? "bg-[#111111] text-white hover:bg-[#C8A97E] hover:text-black"
+                        : "pointer-events-none bg-gray-200 text-gray-500"
+                    }`}
                   >
                     예약하기
-                  </button>
+                  </Link>
                 </div>
               </div>
             </article>

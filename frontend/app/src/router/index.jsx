@@ -5,6 +5,8 @@ import RoomsPage from "../pages/customer/RoomsPage";
 import AdminDashboardPage from "../pages/admin/AdminDashboardPage";
 import KiostPage from "../pages/kiosk/KioskPage";
 import CustomerLayout from "../layouts/CustomerLayout";
+import ReservationCreatePage from "../pages/customer/ReservationCreatePage";
+import ReservationCompletePage from "../pages/customer/ReservationCompletePage";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,14 @@ const router = createBrowserRouter([
         path: "rooms",
         element: <RoomsPage />,
       },
+      {
+        path: "reservation/new",
+        element: <ReservationCreatePage />,
+      },
+      {
+        path: "reservation/complete",
+        element: <ReservationCompletePage />,
+      },      
     ],
   },
   {
