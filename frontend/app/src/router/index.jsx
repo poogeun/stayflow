@@ -7,6 +7,7 @@ import KiostPage from "../pages/kiosk/KioskPage";
 import CustomerLayout from "../layouts/CustomerLayout";
 import ReservationCreatePage from "../pages/customer/ReservationCreatePage";
 import ReservationCompletePage from "../pages/customer/ReservationCompletePage";
+import ReservationSearchPage from "../pages/customer/ReservationSearchPage";
 
 const router = createBrowserRouter([
   {
@@ -28,7 +29,11 @@ const router = createBrowserRouter([
       {
         path: "reservation/complete",
         element: <ReservationCompletePage />,
-      },      
+      },
+      {
+        path: "reservation/search",
+        element: <ReservationSearchPage />,
+      },            
     ],
   },
   {

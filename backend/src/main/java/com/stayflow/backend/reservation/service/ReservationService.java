@@ -28,7 +28,7 @@ public class ReservationService {
   public ReservationResponse createReservation(ReservationCreateRequest request) {
     boolean alreadyReserved = reservationRepository.existsReservation(
         request.roomId(),
-        ReservationStatus.CANCELLED,
+        ReservationStatus.CANCELED,
         request.checkInDate(),
         request.checkOutDate()
     );
@@ -90,7 +90,7 @@ public class ReservationService {
     Reservation reservation = reservationRepository.findById(reservationId)
         .orElseThrow(() -> new IllegalArgumentException("예약을 찾을 수 없습니다."));
 
-    if (reservation.getStatus() == ReservationStatus.CANCELLED) {
+    if (reservation.getStatus() == ReservationStatus.CANCELED) {
       throw new IllegalArgumentException("이미 취소된 예약입니다.");
     }
 
@@ -133,6 +133,16 @@ public class ReservationService {
 
     reservation.checkOut();
     reservation.getRoom().clean();
+
+    return ReservationResponse.from(reservation);
+  }
+
+  public ReservationResponse searchReservation(Long reservationId, String guestPhone) {
+    Reservation reservation = reservationRepository.findByIdAndGuestPhone(
+            reservationId,
+            guestPhone
+        )
+        .orElseThrow(() -> new IllegalArgumentException("예약 정보를 찾을 수 없습니다."));
 
     return ReservationResponse.from(reservation);
   }

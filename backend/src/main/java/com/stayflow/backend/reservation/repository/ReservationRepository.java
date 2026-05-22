@@ -3,6 +3,7 @@ package com.stayflow.backend.reservation.repository;
 import com.stayflow.backend.reservation.entity.Reservation;
 import com.stayflow.backend.reservation.enums.ReservationStatus;
 import java.time.LocalDate;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -22,5 +23,7 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
       LocalDate checkInDate,
       LocalDate checkOutDate
   );
+
+  Optional<Reservation> findByIdAndGuestPhone(Long id, String guestPhone);
 
 }

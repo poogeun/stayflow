@@ -18,3 +18,25 @@ export const getReservation = async (reservationId) => {
 
   return response.data;
 }
+
+export const searchReservation = async ({ reservationId, guestPhone }) => {
+  const response = await axios.get(
+    `${API_BASE_URL}/api/reservations/search`,
+    {
+      params: {
+        reservationId,
+        guestPhone,
+      },
+    }
+  );
+
+  return response.data;
+}
+
+export const cancelReservation = async (reservationId) => {
+  const response = await axios.patch(
+    `${API_BASE_URL}/api/reservations/${reservationId}/cancel`
+  );
+
+  return response.data;
+}

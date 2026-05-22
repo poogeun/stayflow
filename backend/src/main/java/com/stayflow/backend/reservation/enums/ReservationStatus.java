@@ -2,7 +2,7 @@ package com.stayflow.backend.reservation.enums;
 
 public enum ReservationStatus {
   RESERVED,
-  CANCELLED,
+  CANCELED,
   CHECKED_IN,
   CHECKED_OUT,
   NO_SHOW
