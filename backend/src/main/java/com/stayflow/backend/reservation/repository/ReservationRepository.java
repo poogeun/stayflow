@@ -26,4 +26,8 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
 
   Optional<Reservation> findByIdAndGuestPhone(Long id, String guestPhone);
 
+  long countByCheckInDate(LocalDate checkInDate);
+
+  long countByCheckOutDate(LocalDate checkOutDate);
+
 }

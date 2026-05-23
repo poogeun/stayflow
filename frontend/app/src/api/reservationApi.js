@@ -40,3 +40,27 @@ export const cancelReservation = async (reservationId) => {
 
   return response.data;
 }
+
+export const getReservations = async () => {
+  const response = await axios.get(
+    `${API_BASE_URL}/api/reservations`
+  );
+
+  return response.data;
+}
+
+export const checkInReservation = async (reservationId) => {
+  const response = await axios.patch(
+    `${API_BASE_URL}/api/reservations/${reservationId}/check-in`
+  );
+
+  return response.data;
+}
+
+export const checkOutReservation = async (reservationId) => {
+  const reseponse = await axios.patch(
+    `${API_BASE_URL}/api/reservations/${reservationId}/check-out`
+  );
+
+  return reseponse.data;
+}

@@ -9,3 +9,11 @@ export async function getRooms() {
 
   return response.data;
 }
+
+export const completeCleaningRoom = async (roomId) => {
+  const response = await axios.patch(
+    `${API_BASE_URL}/api/rooms/${roomId}/cleaning-complete`
+  );
+
+  return response.data;
+};
