@@ -10,6 +10,7 @@ import ReservationCompletePage from "../pages/customer/ReservationCompletePage";
 import ReservationSearchPage from "../pages/customer/ReservationSearchPage";
 import AdminRoomsPage from "../pages/admin/AdminRoomsPage";
 import AdminLayout from "../layouts/AdminLayout";
+import AdminReservationsPage from "../pages/admin/AdminReservationsPage";
 
 const router = createBrowserRouter([
   {
@@ -45,6 +46,10 @@ const router = createBrowserRouter([
       {
         index: true,
         element: <AdminDashboardPage />,
+      },
+      {
+        path: "reservations",
+        element: <AdminReservationsPage />,
       },
       {
         path: "rooms",

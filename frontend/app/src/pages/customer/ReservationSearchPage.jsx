@@ -1,10 +1,6 @@
 import { useState } from "react";
-
 import { searchReservation, cancelReservation } from "../../api/reservationApi";
-
-function formatPrice(price) {
-  return new Intl.NumberFormat("ko-KR").format(price);
-}
+import { formatDate, formatPrice } from "../../utils/formatUtil";
 
 function ReservationSearchPage() {
   const [form, setForm] = useState({
@@ -162,11 +158,11 @@ function ReservationSearchPage() {
                   </div>
                   <div className="flex justify-between border-b border-gray-100 pb-3">
                     <span className="text-gray-500">체크인</span>
-                    <span className="font-semibold">{reservation.checkInDate}</span>
+                    <span className="font-semibold">{formatDate(reservation.checkInDate)}</span>
                   </div>
                   <div className="flex justify-between border-b border-gray-100 pb-3">
                     <span className="text-gray-500">체크아웃</span>
-                    <span className="font-semibold">{reservation.checkOutDate}</span>
+                    <span className="font-semibold">{formatDate(reservation.checkOutDate)}</span>
                   </div>
                   <div className="flex justify-between border-b border-gray-100 pb-3">
                     <span className="text-gray-500">상태</span>

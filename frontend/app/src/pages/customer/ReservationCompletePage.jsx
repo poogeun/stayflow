@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { getReservation } from "../../api/reservationApi";
-
-function formatPrice(price) {
-  return new Intl.NumberFormat("ko-KR").format(price);
-}
+import { formatDate, formatPrice } from "../../utils/formatUtil";
 
 function ReservationCompletePage() {
   const [searchParams] = useSearchParams();
@@ -77,12 +74,12 @@ function ReservationCompletePage() {
 
               <div className="flex justify-between">
                 <span className="text-gray-500">체크인</span>
-                <span className="font-semibold">{reservation.checkInDate}</span>
+                <span className="font-semibold">{formatDate(reservation.checkInDate)}</span>
               </div>
 
               <div className="flex justify-between">
                 <span className="text-gray-500">체크아웃</span>
-                <span className="font-semibold">{reservation.checkOutDate}</span>
+                <span className="font-semibold">{formatDate(reservation.checkOutDate)}</span>
               </div>
 
               <div className="flex justify-between">

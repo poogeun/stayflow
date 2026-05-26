@@ -1,7 +1,10 @@
-import { Box, Typography, Stack, Button, Card, CardContent, Table, TableHead, TableRow, TableCell, TableBody, Chip, Dialog, DialogTitle, DialogContent, DialogActions } from "@mui/material";
+import { Box, Typography, Stack, Button, Card, CardContent, Table, TableHead, TableRow, TableCell, TableBody, Chip } from "@mui/material";
 import { useEffect, useState } from "react";
-import { checkInReservation, checkOutReservation, getReservations } from "../../api/reservationApi";
+import { getReservations } from "../../api/reservationApi";
 import { getDashboardSummary } from "../../api/adminApi";
+import { Link } from "react-router-dom";
+import { getReservationStatusLabel } from "../../utils/reservationStatusUtil";
+import { formatDate } from "../../utils/formatUtil";
 
 const getStatusColor = (status) => {
   if (status === "RESERVED") return "warning";
@@ -15,16 +18,14 @@ const getStatusColor = (status) => {
 function AdminDashboardPage() {
   const [reservations, setReservations] = useState([]);
 
+  const recentReservations = reservations.slice(0, 5);
+
   const [summary, setSummary] = useState({
     todayCheckInCount: 0,
     todayCheckOutCount: 0,
     occupiedRoomCount: 0,
     cleaningRoomCount: 0,
   });
-
-  const [selectedReservation, setSelectedReservation] = useState(null);
-
-  const [openDetailDialog, setOpenDetailDialog] = useState(false);
 
   useEffect(() => {
     const fetchDashboardSummary = async () => {
@@ -52,54 +53,6 @@ function AdminDashboardPage() {
 
     fetchReservaions();
   }, []);
-
-  const handleCheckIn = async (reservationId) => {
-    try {
-      await checkInReservation(reservationId);
-
-      const data = await getReservations();
-      setReservations(data);
-
-      alert("체크인이 완료되었습니다.");
-    } catch (error) {
-      console.error(error);
-
-      alert(
-        error.response?.data?.message ||
-          "체크인 처리 중 오류가 발생했습니다."
-      );
-    }
-  };
-
-  const handleCheckOut = async (reservationId) => {
-    try {
-      await checkOutReservation(reservationId);
-
-      const data = await getReservations();
-      setReservations(data);
-
-      alert("체크아웃이 완료되었습니다.");
-    } catch (error) {
-      console.error(error);
-
-      alert(
-        error.response?.data?.message ||
-          "체크아웃 처리 중 오류가 발생했습니다."
-      );      
-    }
-  };
-
-  const handleOpenDetail = (reservation) => {
-    setSelectedReservation(reservation);
-
-    setOpenDetailDialog(true);
-  };
-
-  const handleCloseDetail = () => {
-    setOpenDetailDialog(false);
-
-    setSelectedReservation(null);
-  };
 
   return (
     <Box
@@ -262,8 +215,12 @@ function AdminDashboardPage() {
               최근 예약
             </Typography>
 
-            <Button size="small">
-              전체 보기
+            <Button 
+              component={Link}
+              to="/admin/reservations"
+              size="small"
+            >
+              예약 관리 이동
             </Button>
           </Stack>
 
@@ -276,14 +233,18 @@ function AdminDashboardPage() {
                 <TableCell>체크인</TableCell>
                 <TableCell>체크아웃</TableCell>
                 <TableCell>상태</TableCell>
-                <TableCell align="right">
-                  관리
-                </TableCell>
               </TableRow>
             </TableHead>
 
             <TableBody>
-              {reservations.map((reservation) => (
+              {recentReservations.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={6} align="center" sx={{ py: 6}}>
+                    조회된 예약이 없습니다.
+                  </TableCell>
+                </TableRow>
+              ) : (
+              recentReservations.map((reservation) => (
                 <TableRow>
                   <TableCell>
                     #{reservation.id}
@@ -295,285 +256,29 @@ function AdminDashboardPage() {
                     {reservation.roomNumber}
                   </TableCell>
                   <TableCell>
-                    {reservation.checkInDate}
+                    {formatDate(reservation.checkInDate)}
                   </TableCell>
                   <TableCell>
-                    {reservation.checkOutDate}
+                    {formatDate(reservation.checkOutDate)}
                   </TableCell>
 
                   <TableCell>
                     <Chip
-                      label={reservation.status}
+                      label={getReservationStatusLabel(reservation.status)}
                       color={getStatusColor(
                         reservation.status
                       )}
                       size="small"
                     />
-                  </TableCell>
-
-                  <TableCell align="right">
-                    <Stack
-                      direction="row"
-                      spacing={1}
-                      justifyContent="flex-end"
-                    >
-                      <Button
-                        size="small"
-                        variant="outliend"
-                        onClick={() => handleOpenDetail(reservation)}
-                      >
-                        상세
-                      </Button>
-
-                      {reservation.status === "RESERVED" && (
-                        <Button
-                          size="small"
-                          variant="contained"
-                          color="success"
-                          onClick={() => handleCheckIn(reservation.id)}
-                        >
-                          체크인
-                        </Button>
-                      )}
-
-                      {reservation.status === "CHECKED_IN" && (
-                        <Button
-                          size="small"
-                          variant="contained"
-                          color="warning"
-                          onClick={() => handleCheckOut(reservation.id)}
-                        >
-                          체크아웃
-                        </Button>                        
-                      )}
-
-                      {reservation.status !== "RESERVED" &&
-                        reservation.status !== "CHECKED_IN" && (
-                        <Button
-                          size="small"
-                          variant="outlined"
-                          disabled
-                        >
-                          처리불가
-                        </Button>
-                      )}
-                    </Stack>
-                  </TableCell>                                                            
+                  </TableCell>                                                           
                 </TableRow>
-              ))}
+              ))
+              )         
+            }
             </TableBody>
           </Table>
         </CardContent>
       </Card>
-
-      <Dialog
-        open={openDetailDialog}
-        onClose={handleCloseDetail}
-        fullWidth
-        maxWidth="sm"
-      >
-        <DialogTitle>
-          예약 상세 정보
-        </DialogTitle>
-
-        <DialogContent dividers>
-          {selectedReservation && (
-            <Stack spacing={2}>
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%",
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: "#6B7280",
-                    fontWeight: 500,
-                  }}
-                >
-                  예약번호
-                </Typography>
-
-                <Typography
-                  sx={{
-                    fontWeight: 700,
-                    color: "#111827",
-                  }}
-                >
-                  #{selectedReservation.id}
-                </Typography>
-              </Box>
-
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%",
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: "#6B7280",
-                    fontWeight: 500,
-                  }}                
-                >
-                  예약자
-                </Typography>
-
-                <Typography
-                  sx={{
-                    fontWeight: 700,
-                    color: "#111827",
-                  }}
-                >
-                  {selectedReservation.guestName}
-                </Typography>
-              </Box>
-
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%",
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: "#6B7280",
-                    fontWeight: 500,
-                  }}                
-                >
-                  휴대폰번호
-                </Typography>
-
-                <Typography
-                  sx={{
-                    fontWeight: 700,
-                    color: "#111827",
-                  }}
-                >
-                  {selectedReservation.guestPhone}
-                </Typography>
-              </Box>
-
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%",
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: "#6B7280",
-                    fontWeight: 500,
-                  }}                
-                >
-                  객실
-                </Typography>
-
-                <Typography
-                  sx={{
-                    fontWeight: 700,
-                    color: "#111827",
-                  }}
-                >
-                  {selectedReservation.roomNumber}
-                </Typography>
-              </Box>
-
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%",
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: "#6B7280",
-                    fontWeight: 500,
-                  }}                
-                >
-                  체크인
-                </Typography>
-
-                <Typography
-                  sx={{
-                    fontWeight: 700,
-                    color: "#111827",
-                  }}
-                >
-                  {selectedReservation.checkInDate}
-                </Typography>
-              </Box>
-
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%",
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: "#6B7280",
-                    fontWeight: 500,
-                  }}                
-                >
-                  체크아웃
-                </Typography>
-
-                <Typography
-                  sx={{
-                    fontWeight: 700,
-                    color: "#111827",
-                  }}
-                >
-                  {selectedReservation.checkOutDate}
-                </Typography>
-              </Box>  
-
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  width: "100%",
-                }}
-              >
-                <Typography
-                  sx={{
-                    color: "#6B7280",
-                    fontWeight: 500,
-                  }}                
-                >
-                  상태
-                </Typography>
-
-                <Chip
-                  label={selectedReservation.status}
-                  color={getStatusColor(selectedReservation.status)}
-                  size="small"
-                />
-              </Box>                                                                    
-            </Stack>           
-          )}
-        </DialogContent>
-
-        <DialogActions>
-          <Button onClick={handleCloseDetail}>
-            닫기
-          </Button>
-        </DialogActions>
-      </Dialog>
     </Box>
   );
 }

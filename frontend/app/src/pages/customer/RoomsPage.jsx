@@ -1,10 +1,7 @@
 import { useEffect, useState } from "react";
 import { getRooms } from "../../api/roomApi";
 import { Link } from "react-router-dom";
-
-function formatPrice(price) {
-  return new Intl.NumberFormat("ko-KR").format(price);
-}
+import { formatPrice } from "../../utils/formatUtil";
 
 function getStatusLabel(status) {
   if (status === 'AVAILABLE') return "예약 가능";

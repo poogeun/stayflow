@@ -17,3 +17,17 @@ export const completeCleaningRoom = async (roomId) => {
 
   return response.data;
 };
+
+export const updateRoomStatus = async (
+  roomId,
+  status
+) => {
+  const response = await axios.patch(
+    `${API_BASE_URL}/api/rooms/${roomId}/status`,
+    {
+      status,
+    }
+  );
+
+  return response.data;
+}

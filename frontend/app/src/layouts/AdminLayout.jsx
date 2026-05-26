@@ -16,6 +16,7 @@ function AdminLayout() {
 
   const menus = [
     { label: "Dashboard", path: "/admin" },
+    { label: "Reservations", path: "/admin/reservations" },
     { label: "Rooms", path: "/admin/rooms" },
   ];
 
