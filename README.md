@@ -19,7 +19,7 @@
 ## 📸 화면 구성
 
 <details>
-<summary><strong>📸 예약 화면</strong></summary>
+<summary><strong>예약 화면</strong></summary>
 
 <br />
 
@@ -47,7 +47,7 @@
 </details>
 
 <details>
-<summary><strong>📸 PMS 화면</strong></summary>
+<summary><strong>PMS 화면</strong></summary>
 
 <br />
 
@@ -75,7 +75,7 @@
 </details>
 
 <details>
-<summary><strong>📸 키오스크 화면</strong></summary>
+<summary><strong>키오스크 화면</strong></summary>
 
 <br />
 
