@@ -1,6 +1,31 @@
-import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function HomePage() {
+  const navigate = useNavigate();
+
+  const [searchForm, setSearchForm] = useState({
+    checkInDate: "",
+    checkOutDate: "",
+    capacity: "2",
+  });
+
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+
+    setSearchForm((prev) => ({
+      ...prev,
+      [name]: value,
+    }));
+  };
+
+  const handleSearchRooms = () => {
+    navigate(
+      `/rooms?checkInDate=${searchForm.checkInDate}&checkOutDate=${searchForm.checkOutDate}&capacity=${searchForm.capacity}`
+    );
+  };
+
   return (
     <section className="min-h-screen bg-[#F5F3EE] px-6 py-10 text-[#111111] md:px-10">
       <div className="mx-auto max-w-7xl">
@@ -28,6 +53,9 @@ function HomePage() {
                       체크인
                     </label>
                     <input
+                      name="checkInDate"
+                      value={searchForm.checkInDate}
+                      onChange={handleChange}
                       type="date"
                       className="w-full rounded-2xl border border-gray-200 px-4 py-4 outline-none trasition focus:border-[#C8A97E]"
                     />
@@ -38,6 +66,9 @@ function HomePage() {
                       체크아웃
                     </label>
                     <input
+                      name="checkOutDate"
+                      value={searchForm.checkOutDate}
+                      onChange={handleChange}
                       type="date"
                       className="w-full rounded-2xl border border-gray-200 px-4 py-4 outline-none trasition focus:border-[#C8A97E]"
                     />
@@ -47,7 +78,12 @@ function HomePage() {
                     <label className="mb-2 block text-sm font-semibold text-gray-600">
                       인원
                     </label>
-                    <select className="w-full rounded-2xl border border-gray-200 px-4 py-4 outline-none transition focus:border-[#C8A97E]">
+                    <select
+                      name="capacity"
+                      value={searchForm.capacity}
+                      onChange={handleChange}
+                      className="w-full rounded-2xl border border-gray-200 px-4 py-4 outline-none transition focus:border-[#C8A97E]"
+                    >
                       <option>성인 1명</option>
                       <option>성인 2명</option>
                       <option>성인 3명</option>
@@ -56,12 +92,13 @@ function HomePage() {
                   </div>
 
                   <div className="flex items-end">
-                    <Link
-                      to="/rooms"
+                    <Button
+                      type="button"
+                      onClick={handleSearchRooms}
                       className="block w-full rounded-2xl bg-[#C8A97E] px-5 py-4 text-center text-sm font-bold tracking-wide text-black transition hover:opacity-90"
                     >
                       객실 검색
-                    </Link>
+                    </Button>
                   </div>
                 </div>
               </div>

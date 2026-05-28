@@ -31,3 +31,17 @@ export const updateRoomStatus = async (
 
   return response.data;
 }
+
+export const getAvailableRooms = async (checkInDate, checkOutDate) => {
+  const response = await axios.get(
+    `${API_BASE_URL}/api/rooms/available`,
+    {
+      params: {
+        checkInDate,
+        checkOutDate,
+      },
+    }
+  );
+
+  return response.data;
+};

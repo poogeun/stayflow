@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { getRooms } from "../../api/roomApi";
-import { Link } from "react-router-dom";
-import { formatPrice } from "../../utils/formatUtil";
+import { getAvailableRooms } from "../../api/roomApi";
+import { Link, useSearchParams } from "react-router-dom";
+import { formatDate, formatPrice } from "../../utils/formatUtil";
 
 function getStatusLabel(status) {
   if (status === 'AVAILABLE') return "예약 가능";
@@ -24,10 +24,18 @@ function getStatusClass(status) {
 function RoomsPage() {
   const [rooms, setRooms] = useState([]);
 
+  const [searchParams] = useSearchParams();
+  const checkInDate = searchParams.get("checkInDate");
+  const checkOutDate = searchParams.get("checkOutDate");
+  const capacity = searchParams.get("capacity");
+
   useEffect(() => {
     async function fetchRooms() {
       try {
-        const data = await getRooms();
+        const data = await getAvailableRooms(
+          checkInDate,
+          checkOutDate
+        );
 
         setRooms(data);
       } catch (error) {
@@ -35,8 +43,10 @@ function RoomsPage() {
       }
     }
 
-    fetchRooms();
-  }, []);
+    if (checkInDate && checkOutDate) {
+      fetchRooms();
+    }
+  }, [checkInDate, checkOutDate]);
 
   return (
     <section className="min-h-screen bg-[#F5F3EE] px-6 py-10 text-[#111111] md:px-10">
@@ -55,7 +65,7 @@ function RoomsPage() {
           <div className="rounded-3xl bg-white px-6 py-4 shadow-sm">
             <p className="text-sm font-semibold text-gray-500">검색 조건</p>
             <p className="mt-1 text-sm text-gray-700">
-              체크인 / 체크아웃 / 성인 2명
+              {formatDate(checkInDate)} ~ {formatDate(checkOutDate)} / {capacity}명
             </p>
           </div>
         </div>
@@ -102,7 +112,7 @@ function RoomsPage() {
                   </div>
 
                   <Link
-                    to={`/reservation/new?roomId=${room.id}`}
+                    to={`/reservation/new?roomId=${room.id}&checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&capacity=${capacity}`}
                     className={`rounded-2xl px-5 py-3 text-sm font-bold transition ${
                       room.status === "AVAILABLE"
                         ? "bg-[#111111] text-white hover:bg-[#C8A97E] hover:text-black"

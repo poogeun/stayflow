@@ -1,11 +1,15 @@
 package com.stayflow.backend.room.service;
 
+import com.stayflow.backend.reservation.enums.ReservationStatus;
+import com.stayflow.backend.reservation.repository.ReservationRepository;
 import com.stayflow.backend.room.dto.RoomCreateRequest;
 import com.stayflow.backend.room.dto.RoomResponse;
 import com.stayflow.backend.room.dto.RoomStatusUpdateRequest;
 import com.stayflow.backend.room.entity.Room;
 import com.stayflow.backend.room.enums.RoomStatus;
 import com.stayflow.backend.room.repository.RoomRepository;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class RoomService {
 
   private final RoomRepository roomRepository;
+  private final ReservationRepository reservationRepository;
 
   @Transactional
   public RoomResponse createRoom(RoomCreateRequest request) {
@@ -69,6 +74,38 @@ public class RoomService {
     room.available();
 
     return RoomResponse.from(room);
+  }
+
+  public List<RoomResponse> getAvailableRooms(
+      LocalDate checkInDate,
+      LocalDate checkOutDate
+  ) {
+    long nights = ChronoUnit.DAYS.between(checkInDate, checkOutDate);
+
+    if (nights <= 0) {
+      throw new IllegalArgumentException("체크아웃 날짜는 체크인 날짜보다 늦어야 합니다.");
+    }
+
+    List<Long> reservedRoomIds = reservationRepository.findReservedRoomIds(
+        ReservationStatus.CANCELED,
+        checkInDate,
+        checkOutDate
+    );
+
+    List<Room> rooms;
+
+    if (reservedRoomIds.isEmpty()) {
+      rooms = roomRepository.findByStatus(RoomStatus.AVAILABLE);
+    } else {
+      rooms = roomRepository.findAvailableRooms(
+          RoomStatus.AVAILABLE,
+          reservedRoomIds
+      );
+    }
+
+    return rooms.stream()
+        .map(RoomResponse::from)
+        .toList();
   }
 
 }

@@ -3,6 +3,7 @@ package com.stayflow.backend.reservation.repository;
 import com.stayflow.backend.reservation.entity.Reservation;
 import com.stayflow.backend.reservation.enums.ReservationStatus;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,5 +30,18 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
   long countByCheckInDate(LocalDate checkInDate);
 
   long countByCheckOutDate(LocalDate checkOutDate);
+
+  @Query("""
+      select r.room.id
+      from Reservation r
+      where r.status <> :excludeStatus
+        and r.checkInDate < :checkOutDate
+        and r.checkOutDate > :checkInDate
+""")
+  List<Long> findReservedRoomIds(
+      ReservationStatus excludeStatus,
+      LocalDate checkInDate,
+      LocalDate checkOutDate
+  );
 
 }

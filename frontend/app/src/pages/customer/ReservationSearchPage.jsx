@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { searchReservation, cancelReservation } from "../../api/reservationApi";
 import { formatDate, formatPrice } from "../../utils/formatUtil";
+import { formatPhoneNumber } from "../../utils/phoneUtil";
 
 function ReservationSearchPage() {
   const [form, setForm] = useState({
@@ -15,7 +16,9 @@ function ReservationSearchPage() {
 
     setForm({
       ...form,
-      [name]: value,
+      [name]: name === "guestPhone"
+        ? formatPhoneNumber(value)
+        : value,
     });
   };
 

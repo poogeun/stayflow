@@ -2,6 +2,7 @@ import { useState } from "react";
 import { checkInReservation, searchReservation } from "../../api/reservationApi";
 import { formatDate } from "../../utils/formatUtil";
 import { getReservationStatusLabel } from "../../utils/reservationStatusUtil";
+import { formatPhoneNumber } from "../../utils/phoneUtil";
 
 function KioskPage() {
   const [form, setForm] = useState({
@@ -18,7 +19,9 @@ function KioskPage() {
 
     setForm((prev) => ({
       ...prev,
-      [name]: value,
+      [name]: name === "guestPhone"
+        ? formatPhoneNumber(value)
+        : value,
     }));
   };
 

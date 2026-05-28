@@ -2,19 +2,24 @@ import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 import { createReservation } from "../../api/reservationApi";
+import { formatPhoneNumber } from "../../utils/phoneUtil";
 
 function ReservationCreatePage() {
   const navigate = useNavigate();
 
   const [searchParams] = useSearchParams();
   const roomId = searchParams.get("roomId");
+  const checkInDate = searchParams.get("checkInDate");
+  const checkOutDate = searchParams.get("checkOutDate");
+  const capacity = searchParams.get("capacity");
 
   const [form, setForm] = useState({
     guestName: "",
     guestPhone: "",
     guestEmail: "",
-    checkInDate: "",
-    checkOutDate: "",
+    checkInDate: checkInDate || "",
+    checkOutDate: checkOutDate || "",
+    capacity: capacity || "2",
   });
 
   const handleChange = (event) => {
@@ -22,7 +27,9 @@ function ReservationCreatePage() {
 
     setForm({
       ...form,
-      [name]: value,
+      [name]: name === "guestPhone"
+        ? formatPhoneNumber(value)
+        : value,
     });
   };
 
