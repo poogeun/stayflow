@@ -1,6 +1,8 @@
 import { Button } from "@mui/material";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { getRooms } from "../../api/roomApi";
+import { formatPrice } from "../../utils/formatUtil";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -10,6 +12,25 @@ function HomePage() {
     checkOutDate: "",
     capacity: "2",
   });
+
+  const [featuredRoom, setFeaturedRoom] = useState(null);
+
+  useEffect(() => {
+    const fetchFeaturedRoom = async () => {
+      try {
+        const rooms = await getRooms();
+
+        const availableRoom =
+          rooms.find((room) => room.status === "AVAILABLE") || room[0];
+
+          setFeaturedRoom(availableRoom);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchFeaturedRoom();
+  }, []);
 
   const handleChange = (event) => {
     const { name, value } = event.target;
@@ -92,13 +113,13 @@ function HomePage() {
                   </div>
 
                   <div className="flex items-end">
-                    <Button
+                    <button
                       type="button"
                       onClick={handleSearchRooms}
-                      className="block w-full rounded-2xl bg-[#C8A97E] px-5 py-4 text-center text-sm font-bold tracking-wide text-black transition hover:opacity-90"
+                      className="w-full rounded-2xl bg-[#C8A97E] px-5 py-4 text-center text-sm font-bold tracking-wide text-black transition hover:opacity-90"
                     >
                       객실 검색
-                    </Button>
+                    </button>
                   </div>
                 </div>
               </div>
@@ -112,17 +133,29 @@ function HomePage() {
                 <p className="text-sm uppercase tracking-[0.2em] text-[#D8C3A5]">
                   Featured Stay
                 </p>
-                <h3 className="mt-3 text-3xl font-semibold">
-                  Ocean Deluxe Suite
-                </h3>
-                <p className="mt-4 leading-7 text-gray-300">
-                  오션뷰와 프라이빗 라운지를 제공하는 StayFlow의 대표 객실입니다.
-                </p>
-                <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-5 text-sm text-gray-300">
-                  <span>2 Guests</span>
-                  <span>King Bed</span>
-                  <span>Ocean View</span>
-                </div>
+
+                {featuredRoom ? (
+                  <>
+                    <h3 className="mt-3 text-3xl font-semibold">
+                       Room {featuredRoom.roomNumber}
+                    </h3>
+                    <p className="mt-2 text-xl font-bold">
+                      {featuredRoom.roomType}
+                    </p>
+                    <p className="mt-4 leading-7 text-gray-300">
+                      현재 예약 가능한 대표 객실입니다.
+                    </p>
+                    <div className="mt-8 flex items-center justify-between border-t border-white/10 pt-5 text-sm text-gray-300">
+                      <span>{featuredRoom.capacity} Guests</span>
+                      <span>₩{formatPrice(featuredRoom.price)}</span>
+                      <span>{featuredRoom.status}</span>
+                    </div>
+                  </>
+                ) : (
+                  <p className="mt-4 text-gray-300">
+                    대표 객실 정보를 불러오는 중입니다.
+                  </p>
+                )}
               </div>
             </div>
           </div>

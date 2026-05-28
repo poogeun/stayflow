@@ -65,7 +65,7 @@ function RoomsPage() {
           <div className="rounded-3xl bg-white px-6 py-4 shadow-sm">
             <p className="text-sm font-semibold text-gray-500">검색 조건</p>
             <p className="mt-1 text-sm text-gray-700">
-              {formatDate(checkInDate)} ~ {formatDate(checkOutDate)} / {capacity}명
+              {formatDate(checkInDate)} ~ {formatDate(checkOutDate)} / {capacity}
             </p>
           </div>
         </div>

@@ -18,12 +18,10 @@
 
 ## 📸 Screenshots
 
-> 향후 주요 화면 스크린샷을 추가할 예정입니다.
 
-<!--
 ### Customer Reservation
 
-![Customer Home](./docs/images/customer-home.png)
+
 
 ### PMS Dashboard
 
@@ -32,7 +30,7 @@
 ### Kiosk Check-in
 
 ![Kiosk](./docs/images/kiosk-checkin.png)
--->
+
 
 ---
 

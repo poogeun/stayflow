@@ -8,12 +8,12 @@ function CustomerLayout() {
           StayFlow
         </Link>
 
-        <nav className="flex gap-6 text-sm">
+        {/* <nav className="flex gap-6 text-sm">
           <Link to="/rooms">Rooms</Link>
           <Link to="/reservation/search">Reservation</Link>
           <Link to="/admin">PMS</Link>
           <Link to="/kiosk">Kiosk</Link>
-        </nav>
+        </nav> */}
       </header>
 
       <main>

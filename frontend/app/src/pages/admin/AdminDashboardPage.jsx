@@ -83,7 +83,7 @@ function AdminDashboardPage() {
           </Typography>
         </Box>
 
-        <Button
+        {/* <Button
           variant="contained"
           sx={{
             bgcolor: "#111827",
@@ -92,7 +92,7 @@ function AdminDashboardPage() {
           }}
         >
           새 예약 등록
-        </Button>
+        </Button> */}
       </Stack>
 
       <Stack
