@@ -18,18 +18,86 @@
 
 ## 📸 Screenshots
 
+<details>
+<summary><strong>📸 Customer Screens</strong></summary>
 
-### Customer Reservation
+<br />
 
+### Home
 
+<img
+  src="./docs/images/customer-home.png"
+  width="100%"
+/>
 
-### PMS Dashboard
+### 객실 선택
 
-![PMS Dashboard](./docs/images/pms-dashboard.png)
+<img
+  src="./docs/images/customer-rooms.png"
+  width="100%"
+/>
 
-### Kiosk Check-in
+### 예약
 
-![Kiosk](./docs/images/kiosk-checkin.png)
+<img
+  src="./docs/images/customer-reservations.png"
+  width="100%"
+/>
+
+</details>
+
+<details>
+<summary><strong>📸 PMS Screens</strong></summary>
+
+<br />
+
+### Dashboard
+
+<img
+  src="./docs/images/pms-dashboard.png"
+  width="100%"
+/>
+
+### Reservations
+
+<img
+  src="./docs/images/pms-reservations.png"
+  width="100%"
+/>
+
+### Rooms
+
+<img
+  src="./docs/images/pms-rooms.png"
+  width="100%"
+/>
+
+</details>
+
+<details>
+<summary><strong>📸 Kiosk Screens</strong></summary>
+
+<br />
+
+### main
+
+<p align="center">
+  <img
+    src="./docs/images/kiosk.png"
+    width="45%"
+  />
+</p>
+
+### check-in
+
+<p align="center">
+  <img
+    src="./docs/images/kiosk-checkin.png"
+    width="45%"
+  />
+</p>
+
+</details>
 
 
 ---
