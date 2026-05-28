@@ -40,7 +40,7 @@
 ### 예약
 
 <img
-  src="./docs/images/customer-reservations.png"
+  src="./docs/images/customer-reservation.png"
   width="100%"
 />
 
