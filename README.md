@@ -16,10 +16,10 @@
 
 ---
 
-## 📸 Screenshots
+## 📸 화면 구성
 
 <details>
-<summary><strong>📸 Customer Screens</strong></summary>
+<summary><strong>📸 예약 화면</strong></summary>
 
 <br />
 
@@ -47,7 +47,7 @@
 </details>
 
 <details>
-<summary><strong>📸 PMS Screens</strong></summary>
+<summary><strong>📸 PMS 화면</strong></summary>
 
 <br />
 
@@ -75,7 +75,7 @@
 </details>
 
 <details>
-<summary><strong>📸 Kiosk Screens</strong></summary>
+<summary><strong>📸 키오스크 화면</strong></summary>
 
 <br />
 
