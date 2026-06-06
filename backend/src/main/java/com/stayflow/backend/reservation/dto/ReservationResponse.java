@@ -11,6 +11,7 @@ public record ReservationResponse(
     Long guestId,
     String guestName,
     String guestPhone,
+    String guestEmail,
 
     Long roomId,
     String roomNumber,
@@ -31,6 +32,7 @@ public record ReservationResponse(
         reservation.getGuest().getId(),
         reservation.getGuest().getName(),
         reservation.getGuest().getPhone(),
+        reservation.getGuest().getEmail(),
 
         reservation.getRoom().getId(),
         reservation.getRoom().getRoomNumber(),

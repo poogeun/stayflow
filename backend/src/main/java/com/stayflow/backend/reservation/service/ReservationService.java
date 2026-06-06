@@ -1,5 +1,6 @@
 package com.stayflow.backend.reservation.service;
 
+import com.stayflow.backend.email.EmailService;
 import com.stayflow.backend.guest.entity.Guest;
 import com.stayflow.backend.guest.repository.GuestRepository;
 import com.stayflow.backend.reservation.dto.ReservationCreateRequest;
@@ -23,6 +24,7 @@ public class ReservationService {
   private final ReservationRepository reservationRepository;
   private final GuestRepository guestRepository;
   private final RoomRepository roomRepository;
+  private final EmailService emailService;
 
   @Transactional
   public ReservationResponse createReservation(ReservationCreateRequest request) {
@@ -67,8 +69,11 @@ public class ReservationService {
         .build();
 
     Reservation savedReservation = reservationRepository.save(reservation);
+    ReservationResponse reseponse = ReservationResponse.from(savedReservation);
 
-    return ReservationResponse.from(savedReservation);
+    emailService.sendReservationConfirmation(reseponse);
+
+    return reseponse;
   }
 
   public ReservationResponse getReservation(Long reservationId) {
