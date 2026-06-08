@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { getReservation } from "../../api/reservationApi";
 import { formatDate, formatPrice } from "../../utils/formatUtil";
+import { getWeatherByDate } from "../../api/weatherApi";
+import WeatherCard from "../../components/common/WeatherCard";
 
 function ReservationCompletePage() {
   const [searchParams] = useSearchParams();
   const reservationId = searchParams.get("reservationId");
 
   const [reservation, setReservation] = useState(null);
+  const [weather, setWeather] = useState(null);
 
   useEffect(() => {
     const fetchReservation = async () => {
@@ -15,6 +18,15 @@ function ReservationCompletePage() {
         const data = await getReservation(reservationId);
 
         setReservation(data);
+
+        const today = new Date();
+        const checkIn = new Date(data.checkInDate);
+        const diffDays = Math.ceil((checkIn - today) / (1000 * 60 * 60 * 24));
+
+        if (diffDays >= 0 && diffDays <= 5) {
+          const weatherData = await getWeatherByDate(data.checkInDate);
+          setWeather(weatherData);
+        }
       } catch (error) {
         console.error(error);
       }
@@ -88,6 +100,8 @@ function ReservationCompletePage() {
               </div>                                          
             </div>
           </div>
+
+          <WeatherCard weather={weather} />
 
           <div className="mt-10 flex justify-center gap-4">
             <Link
