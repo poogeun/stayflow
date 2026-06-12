@@ -1,4 +1,3 @@
-import { Button } from "@mui/material";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getRooms } from "../../api/roomApi";
@@ -21,7 +20,7 @@ function HomePage() {
         const rooms = await getRooms();
 
         const availableRoom =
-          rooms.find((room) => room.status === "AVAILABLE") || room[0];
+          rooms.find((room) => room.status === "AVAILABLE") || rooms[0];
 
           setFeaturedRoom(availableRoom);
       } catch (error) {

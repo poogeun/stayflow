@@ -112,7 +112,7 @@ function RoomsPage() {
                   </div>
 
                   <Link
-                    to={`/reservation/new?roomId=${room.id}&checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&capacity=${capacity}`}
+                    to={`/reservation/new?roomId=${room.id}&checkInDate=${checkInDate}&checkOutDate=${checkOutDate}&capacity=${capacity}&price=${room.price}`}
                     className={`rounded-2xl px-5 py-3 text-sm font-bold transition ${
                       room.status === "AVAILABLE"
                         ? "bg-[#111111] text-white hover:bg-[#C8A97E] hover:text-black"

@@ -11,6 +11,8 @@ import ReservationSearchPage from "../pages/customer/ReservationSearchPage";
 import AdminRoomsPage from "../pages/admin/AdminRoomsPage";
 import AdminLayout from "../layouts/AdminLayout";
 import AdminReservationsPage from "../pages/admin/AdminReservationsPage";
+import PaymentSuccessPage from "../pages/customer/PaymentSuccessPage";
+import PaymentFailPage from "../pages/customer/PaymentFailPage";
 
 const router = createBrowserRouter([
   {
@@ -36,6 +38,14 @@ const router = createBrowserRouter([
       {
         path: "reservation/search",
         element: <ReservationSearchPage />,
+      },
+      {
+        path: "reservation/payment-success",
+        element: <PaymentSuccessPage />
+      },
+      {
+        path: "reservation/payment-fail",
+        element: <PaymentFailPage />,
       },            
     ],
   },
