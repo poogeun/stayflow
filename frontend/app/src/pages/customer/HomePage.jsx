@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { getRooms } from "../../api/roomApi";
 import { formatPrice } from "../../utils/formatUtil";
+import KakaoMap from "../../components/common/KakaoMap";
 
 function HomePage() {
   const navigate = useNavigate();
@@ -127,6 +128,17 @@ function HomePage() {
             <div className="relative hidden md:block">
               <div className="absolute inset-0 bg-gradient-to-br from-[#3B3428] via-[#1F1F1F] to-black" />
               <div className="absolute inset-8 rounded-[32px] border border-white/10 bg-white/5 backdrop-blur-sm"/>
+
+              {/* 지도 */}
+              <div className="absolute top-10 left-10 right-10 bottom-[340px] overflow-hidden rounded-[24px]">
+                <KakaoMap lat={37.5665} lng={126.9780} level={3} />
+
+                {/* 주소 오버레이 */}
+                <div className="absolute bottom-3 left-3 right-3 z-10 rounded-[16px] bg-black/50 px-4 py-3 text-white backdrop-blur-md">
+                  <p className="text-xs uppercase tracking-widest text-[#C8A97E]">Address</p>
+                  <p className="mt-1 text-sm font-semibold">서울특별시 중구 세종대로 110</p>
+                </div>
+              </div>              
 
               <div className="absolute bottom-10 left-10 right-10 rounded-[28px] bg-white/10 p-7 text-white backdrop-blur-md">
                 <p className="text-sm uppercase tracking-[0.2em] text-[#D8C3A5]">
