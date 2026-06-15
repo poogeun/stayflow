@@ -182,7 +182,7 @@ StayFlow는 호텔 운영 흐름을 통합 관리하기 위한 웹 기반 호텔
 
 객실 예약 결제 및 승인 처리
 
-<img src="./docs/images/payment.png" width="100%" />
+<img src="./docs/images/payment2.png" width="100%" />
 
 ### OpenWeatherMap
 
