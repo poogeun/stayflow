@@ -73,6 +73,12 @@ function PaymentSuccessPage() {
           className="w-full rounded-2xl bg-[#111111] py-4 text-sm font-bold text-white transition hover:bg-[#C8A97E] hover:text-black ">
           홈으로
         </button>
+        <button
+          onClick={() => navigate("/reservation/complete?reservationId=${reservationId}")}
+          className="w-full rounded-2xl bg-[#111111] py-4 text-sm font-bold text-white transition hover:bg-[#C8A97E] hover:text-black "
+        >
+          예약 상세보기
+        </button>
       </div>
     </section>
   );
