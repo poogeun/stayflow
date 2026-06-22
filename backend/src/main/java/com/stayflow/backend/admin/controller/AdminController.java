@@ -19,4 +19,9 @@ public class AdminController {
     return adminService.getDashboardSummary();
   }
 
+  @GetMapping("/ai-briefing")
+  public String getAiBriefing() {
+    return adminService.generateBriefing();
+  }
+
 }

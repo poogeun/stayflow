@@ -44,4 +44,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
       LocalDate checkOutDate
   );
 
+  long countByStatus(ReservationStatus status);
+
 }

@@ -1,6 +1,8 @@
 package com.stayflow.backend.admin.service;
 
 import com.stayflow.backend.admin.dto.response.DashboardSummaryResponse;
+import com.stayflow.backend.ai.AiService;
+import com.stayflow.backend.reservation.enums.ReservationStatus;
 import com.stayflow.backend.reservation.repository.ReservationRepository;
 import com.stayflow.backend.room.enums.RoomStatus;
 import com.stayflow.backend.room.repository.RoomRepository;
@@ -14,6 +16,7 @@ public class AdminService {
 
   private final ReservationRepository reservationRepository;
   private final RoomRepository roomRepository;
+  private final AiService aiService;
 
   public DashboardSummaryResponse getDashboardSummary() {
 
@@ -37,6 +40,19 @@ public class AdminService {
         occupiedRoomCount,
         cleaningRoomCount
     );
+  }
+
+  public String generateBriefing() {
+    LocalDate today = LocalDate.now();
+
+    long todayCheckIn = reservationRepository.countByCheckInDate(today);
+    long todayCheckOut = reservationRepository.countByCheckOutDate(today);
+    long occupied = roomRepository.countByStatus(RoomStatus.OCCUPIED);
+    long cleaning = roomRepository.countByStatus(RoomStatus.CLEANING);
+    long reserved = reservationRepository.countByStatus(ReservationStatus.RESERVED);
+    long checkedIn = reservationRepository.countByStatus(ReservationStatus.CHECKED_IN);
+
+    return aiService.generateBriefing(todayCheckIn, todayCheckOut, occupied, cleaning, reserved, checkedIn);
   }
 
 }
