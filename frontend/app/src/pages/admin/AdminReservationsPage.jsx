@@ -137,38 +137,33 @@ function AdminReservationsPage() {
 
   return (
     <>
-    <Box component="main" sx={{ flexGrow: 1, p: 4 }}>
-      <Stack
-        direction="row"
-        justifyContent="space-between"
-        alignItems="center"
-        sx={{ mb: 4 }}
-      >
-        <Box>
-          <Typography variant="h4" fontWeight={800}>
-            예약 관리
-          </Typography>
+    <Box component="main" sx={{ flexGrow: 1, p: 4, bgcolor: "#fff" }}>
+      <Stack sx={{ mb: 4 }}>
+        <Typography variant="h4" sx={{ fontWeight: 500 }}>
+          예약 관리
+        </Typography>
 
-          <Typography variant="body1" color="text.secondary" sx={{ mt: 1 }}>
-            예약 목록을 조회하고 체크인/체크아웃 처리를 진행합니다.
-          </Typography>
-        </Box>
+        <Typography variant="body2" sx={{ color: "text.secondary", mt: 1 }}>
+          예약 목록을 조회하고 체크인/체크아웃 처리를 진행합니다.
+        </Typography>
       </Stack>
 
-      <Card sx={{ borderRadius: 4 }}>
+      <Card sx={{ borderRadius: 4, border: "0.5px solid", borderColor: "divider", boxShadow: "none" }}>
         <CardContent>
           <Stack
-            direction="row"
-            justifyContent="space-between"
-            alignItems="center"
-            sx={{ mb: 2 }}
+            sx={{
+              flexDirection: "row",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+              mb: 2,
+            }}
           >
             <Box>
-              <Typography variant="h6" fontWeight={800}>
+              <Typography variant="h6" sx={{ fontWeight: 500 }}>
                 예약 목록
               </Typography>
 
-              <Typography variant="body2" color="text.secondary" sx={{ mt: 0.5 }}>
+              <Typography variant="caption" sx={{ color: "text.secondary" }}>
                 총 {filteredReservations.length}건
               </Typography>
             </Box>
@@ -198,27 +193,32 @@ function AdminReservationsPage() {
           <Table>
             <TableHead>
               <TableRow>
-                <TableCell>예약번호</TableCell>
-                <TableCell>고객명</TableCell>
-                <TableCell>객실</TableCell>
-                <TableCell>체크인</TableCell>
-                <TableCell>체크아웃</TableCell>
-                <TableCell>상태</TableCell>
-                <TableCell align="right">관리</TableCell>
+                {["예약번호", "고객명", "객실", "체크인", "체크아웃", "상태", ""].map((h, i) => (
+                  <TableCell
+                    key={i}
+                    sx={{
+                      fontSize: 12,
+                      color: "text.secondary",
+                      fontWeight: 500,
+                    }}
+                  >
+                    {h}
+                  </TableCell>
+                ))}
               </TableRow>
             </TableHead>
 
             <TableBody>
               {filteredReservations.length === 0 ? (
                 <TableRow>
-                  <TableCell colSpan={7} align="center" sx={{ py: 6 }}>
+                  <TableCell colSpan={7} align="center" sx={{ py: 6, color: "text.secondary" }}>
                     조회된 예약이 없습니다.
                   </TableCell>
                 </TableRow>
               ) : (
                 filteredReservations.map((reservation) => (
                   <TableRow key={reservation.id} hover>
-                    <TableCell>#{reservation.id}</TableCell>
+                    <TableCell sx={{ color: "text.secondary" }}>#{reservation.id}</TableCell>
                     <TableCell>{reservation.guestName}</TableCell>
                     <TableCell>{reservation.roomNumber}</TableCell>
                     <TableCell>{formatDate(reservation.checkInDate)}</TableCell>
@@ -231,7 +231,7 @@ function AdminReservationsPage() {
                       />
                     </TableCell>
                     <TableCell align="right">
-                      <Stack direction="row" spacing={1} justifyContent="flex-end">
+                      <Stack sx={{ flexDirection: "row", gap: 1, justifyContent: "flex-end" }}>
                         <Button
                           size="small"
                           variant="outlined"
@@ -285,64 +285,24 @@ function AdminReservationsPage() {
       fullWidth
       maxWidth="sm"
     >
-      <DialogTitle>예약 상세 정보</DialogTitle>
+      <DialogTitle sx={{ fontWeight: 500 }}>예약 상세 정보</DialogTitle>
 
       <DialogContent dividers>
         {selectedReservation && (
-          <Stack spacing={2}>
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography sx={{ color: "#6B7280", fontWeight: 500 }}>
-                예약번호
-              </Typography>
-              <Typography sx={{ color: "#111827", fontWeight: 700 }}>
-                #{selectedReservation.id}
-              </Typography>
-            </Box>
-
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography sx={{ color: "#6B7280", fontWeight: 500 }}>
-                예약자
-              </Typography>
-              <Typography sx={{ color: "#111827", fontWeight: 700 }}>
-                {selectedReservation.guestName}
-              </Typography>
-            </Box>
-
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography sx={{ color: "#6B7280", fontWeight: 500 }}>
-                휴대폰번호
-              </Typography>
-              <Typography sx={{ color: "#111827", fontWeight: 700 }}>
-                {selectedReservation.guestPhone}
-              </Typography>
-            </Box>
-
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography sx={{ color: "#6B7280", fontWeight: 500 }}>
-                객실
-              </Typography>
-              <Typography sx={{ color: "#111827", fontWeight: 700 }}>
-                {selectedReservation.roomNumber}
-              </Typography>
-            </Box>
-
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography sx={{ color: "#6B7280", fontWeight: 500 }}>
-                체크인
-              </Typography>
-              <Typography sx={{ color: "#111827", fontWeight: 700 }}>
-                {formatDate(selectedReservation.checkInDate)}
-              </Typography>
-            </Box>
-
-            <Box sx={{ display: "flex", justifyContent: "space-between" }}>
-              <Typography sx={{ color: "#6B7280", fontWeight: 500 }}>
-                체크아웃
-              </Typography>
-              <Typography sx={{ color: "#111827", fontWeight: 700 }}>
-                {formatDate(selectedReservation.checkOutDate)}
-              </Typography>
-            </Box>
+          <Stack sx={{ gap: 2 }}>
+            {[
+              { label: "예약번호", value: `#${selectedReservation.id}` },
+              { label: "예약자", value: selectedReservation.guestName },
+              { label: "휴대폰번호", value: selectedReservation.guestPhone },
+              { label: "객실", value: selectedReservation.roomNumber },
+              { label: "체크인", value: formatDate(selectedReservation.checkInDate) },
+              { label: "체크아웃", value: formatDate(selectedReservation.checkOutDate) },
+            ].map(({ label, value }) => (
+              <Box key={label} sx={{ display: "flex", justifyContent: "space-between" }}>
+                <Typography sx={{ color: "text.secondary", fontSize: 14 }}>{label}</Typography>
+                <Typography sx={{ fontWeight: 500, fontSize: 14 }}>{value}</Typography>
+              </Box>
+            ))}
           </Stack>
         )}
       </DialogContent>

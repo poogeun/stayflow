@@ -1,12 +1,15 @@
 import {
   Box,
   CssBaseline,
+  Divider,
   Drawer,
   List,
   ListItemButton,
+  ListItemIcon,
   ListItemText,
   Typography,
 } from "@mui/material";
+import { DashboardOutlined, CalendarMonthOutlined, MeetingRoomOutlined } from "@mui/icons-material";
 import { Link, Outlet, useLocation } from "react-router-dom";
 
 const drawerWidth = 240;
@@ -15,13 +18,13 @@ function AdminLayout() {
   const location = useLocation();
 
   const menus = [
-    { label: "Dashboard", path: "/admin" },
-    { label: "Reservations", path: "/admin/reservations" },
-    { label: "Rooms", path: "/admin/rooms" },
+    { label: "Dashboard", path: "/admin", icon: <DashboardOutlined fontSize="small" /> },
+    { label: "Reservations", path: "/admin/reservations", icon: <CalendarMonthOutlined fontSize="small" /> },
+    { label: "Rooms", path: "/admin/rooms", icon: <MeetingRoomOutlined fontSize="small" /> },
   ];
 
   return (
-    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "#f5f6f8" }}>
+    <Box sx={{ display: "flex", minHeight: "100vh", bgcolor: "#fff" }}>
       <CssBaseline />
 
       <Drawer
@@ -32,22 +35,38 @@ function AdminLayout() {
           "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
-            bgcolor: "#111827",
-            color: "white",
-            borderRight: "none",
+            bgcolor: "#fff",
+            borderRight: "0.5px solid",
+            borderColor: "divider",
           },
         }}
       >
-        <Box sx={{ p: 3 }}>
-          <Typography variant="h5" fontWeight={800}>
+        <Box sx={{ p: 3, py: 2.5 }}>
+          <Typography variant="h6" sx={{ fontWeight: 700, color: "#111827" }}>
             StayFlow
           </Typography>
-          <Typography variant="body2" sx={{ color: "#9CA3AF", mt: 0.5 }}>
+          <Typography variant="caption" sx={{ color: "text.secondary" }}>
             PMS Admin
           </Typography>
         </Box>
 
-        <List sx={{ px: 2 }}>
+        <Divider />
+
+        <Box sx={{ px: 1.5, pt: 1.5 }}>
+          <Typography
+            variant="caption"
+            sx={{
+              px: 1.5,
+              color: "text.disabled",
+              fontWeight: 600,
+              letterSpacing: "0.08em"
+            }}
+          >
+            OVERVIEW
+          </Typography>
+        </Box>
+
+        <List sx={{ px: 1.5, pt: 0.5 }}>
           {menus.map((menu) => {
             const isActive = location.pathname === menu.path;
 
@@ -58,18 +77,22 @@ function AdminLayout() {
                 to={menu.path}
                 sx={{
                   borderRadius: 2,
-                  mb: 1,
-                  color: "white",
-                  bgcolor: isActive ? "rgba(255,255,255,0.14)" : "transparent",
+                  mb: 0.5,
+                  color: isActive ? "#1D9E75" : "text.secondary",
+                  bgcolor: isActive ? "rgba(29,158,117,0.08)" : "transparent",
                   "&:hover": {
-                    bgcolor: "rgba(255,255,255,0.08)",
+                    bgcolor: isActive ? "rgba(29,158,117,0.08)" : "action.hover",
                   },
                 }}
               >
+                <ListItemIcon sx={{ minWidth: 36, color: "inherit" }}>
+                  {menu.icon}
+                </ListItemIcon>
                 <ListItemText
                   primary={menu.label}
                   primaryTypographyProps={{
-                    fontWeight: isActive ? 800 : 500,
+                    fontSize: 14,
+                    fontWeight: isActive ? 600 : 400,
                   }} 
                 />
               </ListItemButton>
@@ -78,7 +101,7 @@ function AdminLayout() {
         </List>
       </Drawer>
 
-      <Box component="main" sx={{ flexGrow: 1, p: 4 }}>
+      <Box component="main" sx={{ flexGrow: 1 }}>
         <Outlet />
       </Box>
     </Box>
