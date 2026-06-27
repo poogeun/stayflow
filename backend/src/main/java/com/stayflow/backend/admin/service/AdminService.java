@@ -1,12 +1,14 @@
 package com.stayflow.backend.admin.service;
 
 import com.stayflow.backend.admin.dto.response.DashboardSummaryResponse;
+import com.stayflow.backend.admin.dto.response.MonthlyRevenueResponse;
 import com.stayflow.backend.ai.AiService;
 import com.stayflow.backend.reservation.enums.ReservationStatus;
 import com.stayflow.backend.reservation.repository.ReservationRepository;
 import com.stayflow.backend.room.enums.RoomStatus;
 import com.stayflow.backend.room.repository.RoomRepository;
 import java.time.LocalDate;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -53,6 +55,15 @@ public class AdminService {
     long checkedIn = reservationRepository.countByStatus(ReservationStatus.CHECKED_IN);
 
     return aiService.generateBriefing(todayCheckIn, todayCheckOut, occupied, cleaning, reserved, checkedIn);
+  }
+
+  public List<MonthlyRevenueResponse> getMonthlyRevenue(int year) {
+    return reservationRepository.getMonthlyRevenueStats(year).stream()
+        .map(row -> new MonthlyRevenueResponse(
+            ((Number) row[0]).intValue(),
+            ((Number) row[1]).longValue(),
+            ((Number) row[2]).intValue()
+        )).toList();
   }
 
 }

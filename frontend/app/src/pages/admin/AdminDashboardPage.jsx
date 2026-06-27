@@ -1,11 +1,12 @@
 import { Box, Typography, Stack, Button, Card, CardContent, Table, TableHead, TableRow, TableCell, TableBody, Chip } from "@mui/material";
 import { useEffect, useState } from "react";
 import { getReservations } from "../../api/reservationApi";
-import { getAiBriefing, getDashboardSummary } from "../../api/adminApi";
+import { getAiBriefing, getDashboardSummary, getMonthlyRevenue } from "../../api/adminApi";
 import { Link } from "react-router-dom";
 import { getReservationStatusLabel } from "../../utils/reservationStatusUtil";
 import { formatDate } from "../../utils/formatUtil";
 import { AutoAwesome, Business } from "@mui/icons-material";
+import { Bar, BarChart, Cell, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 const getStatusColor = (status) => {
   if (status === "RESERVED") return "warning";
@@ -46,6 +47,8 @@ function AdminDashboardPage() {
   const [reservations, setReservations] = useState([]);
   const [briefing, setBriefing] = useState("");
   const [briefingLoading, setBriefingLoading] = useState(false);
+  const [monthlyRevenue, setMonthlyRevenue] = useState([]);
+
   const [summary, setSummary] = useState({
     todayCheckInCount: 0,
     todayCheckOutCount: 0,
@@ -96,6 +99,19 @@ function AdminDashboardPage() {
     };
 
     fetchReservaions();
+  }, []);
+
+  useEffect(() => {
+    const fetchMonthlyRevenue = async () => {
+      try {
+        const data = await getMonthlyRevenue(2026);
+        setMonthlyRevenue(data);
+      } catch (error) {
+        console.error(error);
+      }
+    };
+
+    fetchMonthlyRevenue();
   }, []);
 
   const statCards = [
@@ -266,6 +282,54 @@ function AdminDashboardPage() {
           </Card>
         ))}
       </Stack>
+
+      {/* 월별 매출 */}
+      <Card
+        sx={{
+          borderRadius: 3,
+          border: "0.5px solid",
+          borderColor: "divider",
+          boxShadow: "none",
+          mb: 3,
+        }}
+      >
+        <CardContent>
+          <Box sx={{ mb: 2 }}>
+            <Typography variant="h6" sx={{ fontWeight: 500 }}>월별 매출</Typography>
+            <Typography variant="caption" sx={{ color: "text.secondary "}}>2026년 체크아웃 완료 기준</Typography>
+          </Box>
+
+          <ResponsiveContainer width="100%" height={220}>
+            <BarChart data={monthlyRevenue} barSize={28}>
+              <XAxis
+                dataKey="month"
+                tickFormatter={(m) => `${m}월`}
+                tick={{ fontSize: 12 }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <YAxis
+                tickFormatter={(v) => `${(v / 10000).toFixed(0)}만`}
+                tick={{ fontSize: 12 }}
+                axisLine={false}
+                tickLine={false}
+              />
+              <Tooltip
+                formatter={(value) => [`${value.toLocaleString()}원`, "매출"]}
+                labelFormatter={(m) => `${m}월`}
+              />
+              <Bar dataKey="revenue" radius={[4, 4, 0, 0]}>
+                {monthlyRevenue.map((_, i) => (
+                  <Cell
+                    key={i}
+                    fill={i === monthlyRevenue.length - 1 ? "#1D9E75" : "#9FE1CB"}
+                  />
+                ))}
+              </Bar>
+            </BarChart>
+          </ResponsiveContainer>
+        </CardContent>
+      </Card>
 
       {/* 최근 예약 */}
       <Card

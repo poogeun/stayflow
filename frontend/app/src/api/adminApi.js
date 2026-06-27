@@ -17,3 +17,11 @@ export const getAiBriefing = async () => {
 
   return response.data;
 };
+
+export const getMonthlyRevenue = async (year = 2026) => {
+  const response = await axios.get(
+    `${API_BASE_URL}/api/admin/revenue-stats?year=${year}`
+  );
+
+  return response.data;
+}

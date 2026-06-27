@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 public interface ReservationRepository extends JpaRepository<Reservation, Long> {
 
@@ -45,5 +46,12 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
   );
 
   long countByStatus(ReservationStatus status);
+
+  @Query(value = "SELECT * FROM get_monthly_revenue_stats(:year)", nativeQuery = true)
+  List<Object[]> getMonthlyRevenueStats(@Param("year") int year);
+
+  List<Reservation> findByStatusAndCheckInDateBefore(ReservationStatus status, LocalDate date);
+
+  List<Reservation> findByStatusAndCheckOutDateBefore(ReservationStatus status, LocalDate date);
 
 }
