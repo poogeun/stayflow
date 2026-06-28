@@ -1,4 +1,5 @@
 import { Link, Outlet } from "react-router-dom";
+import ChatWidget from "../components/common/ChatWidget";
 
 function CustomerLayout() {
   return (
@@ -19,6 +20,8 @@ function CustomerLayout() {
       <main>
         <Outlet />
       </main>
+
+      <ChatWidget />
     </div>
   );
 }

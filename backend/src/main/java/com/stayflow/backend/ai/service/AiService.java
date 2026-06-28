@@ -1,11 +1,10 @@
-package com.stayflow.backend.ai;
+package com.stayflow.backend.ai.service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClient;
 

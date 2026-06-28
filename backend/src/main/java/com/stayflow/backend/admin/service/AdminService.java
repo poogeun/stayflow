@@ -2,7 +2,7 @@ package com.stayflow.backend.admin.service;
 
 import com.stayflow.backend.admin.dto.response.DashboardSummaryResponse;
 import com.stayflow.backend.admin.dto.response.MonthlyRevenueResponse;
-import com.stayflow.backend.ai.AiService;
+import com.stayflow.backend.ai.service.AiService;
 import com.stayflow.backend.reservation.enums.ReservationStatus;
 import com.stayflow.backend.reservation.repository.ReservationRepository;
 import com.stayflow.backend.room.enums.RoomStatus;
