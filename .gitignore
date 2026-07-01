@@ -23,3 +23,9 @@ Thumbs.db
 AGENTS.md
 
 CLAUDE.md
+
+# Local portfolio screenshot seed data
+scripts/portfolio-seed.sql
+
+# Local portfolio SQL data
+scripts/*.sql

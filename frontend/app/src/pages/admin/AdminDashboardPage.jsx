@@ -71,21 +71,21 @@ function AdminDashboardPage() {
     fetchDashboardSummary();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchBriefing = async () => {
-  //     setBriefingLoading(true);
-  //     try {
-  //       const data = await getAiBriefing();
-  //       setBriefing(data);
-  //     } catch (error) {
-  //       console.error(error);
-  //     } finally {
-  //       setBriefingLoading(false);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchBriefing = async () => {
+      setBriefingLoading(true);
+      try {
+        const data = await getAiBriefing();
+        setBriefing(data);
+      } catch (error) {
+        console.error(error);
+      } finally {
+        setBriefingLoading(false);
+      }
+    };
 
-  //   fetchBriefing();
-  // }, []);
+    fetchBriefing();
+  }, []);
 
   useEffect(() => {
     const fetchReservaions = async () => {
@@ -283,135 +283,149 @@ function AdminDashboardPage() {
         ))}
       </Stack>
 
-      {/* 월별 매출 */}
-      <Card
+      <Stack
         sx={{
-          borderRadius: 3,
-          border: "0.5px solid",
-          borderColor: "divider",
-          boxShadow: "none",
-          mb: 3,
+          flexDirection: {
+            xs: "column",
+            lg: "row",
+          },
+          gap: 3,
+          alignItems: "stretch",
         }}
       >
-        <CardContent>
-          <Box sx={{ mb: 2 }}>
-            <Typography variant="h6" sx={{ fontWeight: 500 }}>월별 매출</Typography>
-            <Typography variant="caption" sx={{ color: "text.secondary "}}>2026년 체크아웃 완료 기준</Typography>
-          </Box>
-
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={monthlyRevenue} barSize={28}>
-              <XAxis
-                dataKey="month"
-                tickFormatter={(m) => `${m}월`}
-                tick={{ fontSize: 12 }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <YAxis
-                tickFormatter={(v) => `${(v / 10000).toFixed(0)}만`}
-                tick={{ fontSize: 12 }}
-                axisLine={false}
-                tickLine={false}
-              />
-              <Tooltip
-                formatter={(value) => [`${value.toLocaleString()}원`, "매출"]}
-                labelFormatter={(m) => `${m}월`}
-              />
-              <Bar dataKey="revenue" radius={[4, 4, 0, 0]}>
-                {monthlyRevenue.map((_, i) => (
-                  <Cell
-                    key={i}
-                    fill={i === monthlyRevenue.length - 1 ? "#1D9E75" : "#9FE1CB"}
-                  />
-                ))}
-              </Bar>
-            </BarChart>
-          </ResponsiveContainer>
-        </CardContent>
-      </Card>
-
-      {/* 최근 예약 */}
-      <Card
-        sx={{
-          borderRadius: 3,
-          border: "0.5px solid",
-          borderColor: "divider",
-          boxShadow: "none",
-        }}
-      >
-        <CardContent>
-          <Stack
-            sx={{
-              flexDirection: "row",
-              justifyContent: "space-between",
-              alignItems: "flex-start",
-              mb: 2,
-            }}
-          >
-            <Box>
-              <Typography variant="h6" sx={{ fontWeight: 500 }}>최근 예약</Typography>
-              <Typography variant="caption" sx={{ color: "text.secondary" }}>최근 5건</Typography>
+        {/* 월별 매출 */}
+        <Card
+          sx={{
+            flex: 1,
+            borderRadius: 3,
+            border: "0.5px solid",
+            borderColor: "divider",
+            boxShadow: "none",
+          }}
+        >
+          <CardContent>
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="h6" sx={{ fontWeight: 500 }}>월별 매출</Typography>
+              <Typography variant="caption" sx={{ color: "text.secondary "}}>2026년 체크아웃 완료 기준</Typography>
             </Box>
-            <Button
-              component={Link}
-              to="/admin/reservations"
-              size="small"
+
+            <ResponsiveContainer width="100%" height={220}>
+              <BarChart data={monthlyRevenue} barSize={28}>
+                <XAxis
+                  dataKey="month"
+                  tickFormatter={(m) => `${m}월`}
+                  tick={{ fontSize: 12 }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <YAxis
+                  tickFormatter={(v) => `${(v / 10000).toFixed(0)}만`}
+                  tick={{ fontSize: 12 }}
+                  axisLine={false}
+                  tickLine={false}
+                />
+                <Tooltip
+                  formatter={(value) => [`${value.toLocaleString()}원`, "매출"]}
+                  labelFormatter={(m) => `${m}월`}
+                />
+                <Bar dataKey="revenue" radius={[4, 4, 0, 0]}>
+                  {monthlyRevenue.map((_, i) => (
+                    <Cell
+                      key={i}
+                      fill={i === monthlyRevenue.length - 1 ? "#1D9E75" : "#9FE1CB"}
+                    />
+                  ))}
+                </Bar>
+              </BarChart>
+            </ResponsiveContainer>
+          </CardContent>
+        </Card>
+
+        {/* 최근 예약 */}
+        <Card
+          sx={{
+            flex: 1,
+            borderRadius: 3,
+            border: "0.5px solid",
+            borderColor: "divider",
+            boxShadow: "none",
+          }}
+        >
+          <CardContent>
+            <Stack
               sx={{
-                color: "#1D9E75",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "flex-start",
+                mb: 2,
               }}
             >
-              예약 관리 이동 →
-            </Button>
-          </Stack>
+              <Box>
+                <Typography variant="h6" sx={{ fontWeight: 500 }}>최근 예약</Typography>
+                <Typography variant="caption" sx={{ color: "text.secondary" }}>최근 5건</Typography>
+              </Box>
+              <Button
+                component={Link}
+                to="/admin/reservations"
+                size="small"
+                sx={{
+                  color: "#1D9E75",
+                }}
+              >
+                예약 관리 이동 →
+              </Button>
+            </Stack>
 
-          <Table>
-            <TableHead>
-              <TableRow>
-                {["예약번호", "고객명", "객실", "체크인", "체크아웃", "상태"].map((h) => (
-                  <TableCell
-                    key={h}
-                    sx={{
-                      fontSize: 12,
-                      color: "text.secondary",
-                      fontWeight: 500,
-                    }}
-                  >
-                    {h}
-                  </TableCell>
-                ))}
-              </TableRow>
-            </TableHead>
-
-            <TableBody>
-              {recentReservations.length === 0 ? (
+            <Table size="small">
+              <TableHead>
                 <TableRow>
-                  <TableCell colSpan={6} align="center" sx={{ py: 6, color: "text.secondary" }}>
-                    조회된 예약이 없습니다.
-                  </TableCell>
+                  {["예약번호", "고객명", "객실", "체크인", "체크아웃", "상태"].map((h) => (
+                    <TableCell
+                      key={h}
+                      sx={{
+                        fontSize: 12,
+                        color: "text.secondary",
+                        fontWeight: 500,
+                      }}
+                    >
+                      {h}
+                    </TableCell>
+                  ))}
                 </TableRow>
-              ) : (
-                recentReservations.map((r) => (
-                  <TableRow key={r.id} hover>
-                    <TableCell sx={{ color: "text.secondary" }}>#{r.id}</TableCell>
-                    <TableCell>{r.guestName}</TableCell>
-                    <TableCell>{r.roomNumber}</TableCell>
-                    <TableCell>{formatDate(r.checkInDate)}</TableCell>
-                    <TableCell>{formatDate(r.checkOutDate)}</TableCell>
-                    <TableCell>
-                      <Chip
-                        label={getReservationStatusLabel(r.status)}
-                        color={getStatusColor(r.status)}
-                        size="small"
-                      />
-                    </TableCell>                    
+              </TableHead>
+
+              <TableBody>
+                {recentReservations.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={6} align="center" sx={{ py: 6, color: "text.secondary" }}>
+                      조회된 예약이 없습니다.
+                    </TableCell>
                   </TableRow>
-                ))
-              )}
-            </TableBody>
-          </Table>
-        </CardContent>
-      </Card>
+                ) : (
+                  recentReservations.map((r) => (
+                    <TableRow key={r.id} hover>
+                      <TableCell sx={{ color: "text.secondary" }}>#{r.id}</TableCell>
+                      <TableCell>{r.guestName}</TableCell>
+                      <TableCell>{r.roomNumber}</TableCell>
+                      <TableCell>{formatDate(r.checkInDate)}</TableCell>
+                      <TableCell>{formatDate(r.checkOutDate)}</TableCell>
+                      <TableCell>
+                        <Chip
+                          label={getReservationStatusLabel(r.status)}
+                          color={getStatusColor(r.status)}
+                          size="small"
+                        />
+                      </TableCell>                    
+                    </TableRow>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </CardContent>
+        </Card>
+      </Stack>
+
+
     </Box>
   );
 }

@@ -23,26 +23,25 @@
 
 <br />
 
-### Home
-
-<img
-  src="./docs/images/customer-home.png"
-  width="100%"
-/>
-
-### 객실 선택
-
-<img
-  src="./docs/images/customer-rooms.png"
-  width="100%"
-/>
-
-### 예약
-
-<img
-  src="./docs/images/customer-reservation.png"
-  width="100%"
-/>
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Home</strong><br />
+      <img src="./docs/images/customer-home.png" width="100%" />
+    </td>
+    <td width="50%">
+      <strong>객실 선택</strong><br />
+      <img src="./docs/images/customer-rooms.png" width="100%" />
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>예약</strong><br />
+      <img src="./docs/images/customer-reservation.png" width="100%" />
+    </td>
+    <td width="50%"></td>
+  </tr>
+</table>
 
 </details>
 
@@ -51,26 +50,25 @@
 
 <br />
 
-### Dashboard
-
-<img
-  src="./docs/images/pms-dashboard.png"
-  width="100%"
-/>
-
-### Reservations
-
-<img
-  src="./docs/images/pms-reservations.png"
-  width="100%"
-/>
-
-### Rooms
-
-<img
-  src="./docs/images/pms-rooms.png"
-  width="100%"
-/>
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Dashboard</strong><br />
+      <img src="./docs/images/pms-dashboard.png" width="100%" />
+    </td>
+    <td width="50%">
+      <strong>Reservations</strong><br />
+      <img src="./docs/images/pms-reservations.png" width="100%" />
+    </td>
+  </tr>
+  <tr>
+    <td width="50%">
+      <strong>Rooms</strong><br />
+      <img src="./docs/images/pms-rooms.png" width="100%" />
+    </td>
+    <td width="50%"></td>
+  </tr>
+</table>
 
 </details>
 
@@ -79,23 +77,18 @@
 
 <br />
 
-### main
-
-<p align="center">
-  <img
-    src="./docs/images/kiosk.png"
-    width="45%"
-  />
-</p>
-
-### check-in
-
-<p align="center">
-  <img
-    src="./docs/images/kiosk-checkin.png"
-    width="45%"
-  />
-</p>
+<table>
+  <tr>
+    <td width="50%">
+      <strong>Main</strong><br />
+      <img src="./docs/images/kiosk.png" width="100%" />
+    </td>
+    <td width="50%">
+      <strong>Check-in</strong><br />
+      <img src="./docs/images/kiosk-checkin.png" width="100%" />
+    </td>
+  </tr>
+</table>
 
 </details>
 
@@ -148,14 +141,19 @@ StayFlow는 호텔 운영 흐름을 통합 관리하기 위한 웹 기반 호텔
 
 ### 고객 예약 사이트
 
-- 객실 조회
-- 객실 예약
-- 예약 조회
-- 예약 취소
+- 객실 조회/예약
+- 예약 조회/취소
+- Toss Payments 결제
+- 예약 완료 이메일 수신
+- 체크인 날짜 기준 날씨 확인
+- 호텔 위치 지도 확인
+- AI 컨시어지 챗봇 문의
 
 ### PMS 관리자 시스템
 
 - Dashboard 운영 현황
+- AI 운영 브리핑
+- 월별 매출 통계 차트
 - 예약 관리
 - 체크인 / 체크아웃
 - 예약 검색 / 상태 필터
@@ -177,6 +175,13 @@ StayFlow는 호텔 운영 흐름을 통합 관리하기 위한 웹 기반 호텔
 <summary><strong>🔗 외부 API 및 서비스 연동</strong></summary>
 
 <br />
+
+### Gemini API
+
+AI 컨시어지 챗봇 응답 생성 및 PMS 운영 브리핑 생성
+
+<img src="./docs/images/ai-briefing.png" width="60%" />
+<img src="./docs/images/ai-concierge.png" width="40%" />
 
 ### Toss Payments
 
